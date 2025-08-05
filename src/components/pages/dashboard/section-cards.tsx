@@ -1,4 +1,9 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
+import {
+  IconBottle,
+  IconChartLine,
+  IconQrcode,
+  IconScan,
+} from "@tabler/icons-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -15,86 +20,87 @@ export function SectionCards() {
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>QR Codes disponibles</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            38/50
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+              <IconQrcode />
+              76%
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
+            12 QR codes utilisés
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            38 restants sur votre forfait
           </div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Scans totaux</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            1,847
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
+              <IconScan />
+              +24%
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
+            Augmentation ce mois-ci
           </div>
-          <div className="text-muted-foreground">
-            Acquisition needs attention
-          </div>
+          <div className="text-muted-foreground">347 scans cette semaine</div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Cuvées actives</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            8
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+              <IconBottle />
+              Actif
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
+            8 cuvées avec QR codes
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">3 millésimes différents</div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Scan moyen/QR</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            154
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
+              <IconChartLine />
+              +12%
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
+            Performance excellente
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">Moyenne du secteur : 80</div>
         </CardFooter>
       </Card>
     </div>

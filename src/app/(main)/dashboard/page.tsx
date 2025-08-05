@@ -1,10 +1,14 @@
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
-import { SectionCards } from "@/components/section-cards";
+import { ChartAreaInteractive } from "@/components/pages/dashboard/chart-area-interactive";
+import { SectionCards } from "@/components/pages/dashboard/section-cards";
+import { type Metadata } from "next";
 
-import data from "./data.json";
+export const metadata: Metadata = {
+  title: "Dashboard | Vin'QR",
+  description:
+    "Tableau de bord principal pour gérer vos QR codes et vos cuvées.",
+};
 
-export default function Page() {
+export default function DashboardPage() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
@@ -13,7 +17,6 @@ export default function Page() {
           <div className="px-4 lg:px-6">
             <ChartAreaInteractive />
           </div>
-          <DataTable data={data} />
         </div>
       </div>
     </div>

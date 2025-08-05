@@ -281,7 +281,7 @@ export function ChartAreaInteractive() {
               stackId="a"
             />
           </AreaChart>
-        </ChartContainer>
+        </ChartContainer> 
       </CardContent>
     </Card>
   );

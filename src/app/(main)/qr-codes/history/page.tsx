@@ -1,0 +1,129 @@
+import { DataTable } from "@/components/pages/qr-codes/history/data-table";
+import { SectionCards } from "@/components/pages/qr-codes/history/section-cards";
+import { Button } from "@/components/ui/button";
+import { IconArchive } from "@tabler/icons-react";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Historique | Vin'QR",
+  description: "Archives et QR codes désactivés.",
+};
+
+const historyData = [
+  {
+    id: 1,
+    cuvee: "Brut Réserve",
+    millesime: "2019",
+    type: "Champagne Brut",
+    url: "brut-reserve-2019",
+    scans: 1247,
+    lastScan: "Il y a 2 semaines",
+    created: "10/01/2023",
+    deactivated: "15/11/2024",
+    status: "archived",
+    reason: "Fin de production",
+  },
+  {
+    id: 2,
+    cuvee: "Cuvée Spéciale",
+    millesime: "2020",
+    type: "Champagne Premium",
+    url: "cuvee-speciale-2020",
+    scans: 892,
+    lastScan: "Il y a 1 mois",
+    created: "05/06/2023",
+    deactivated: "20/10/2024",
+    status: "deactivated",
+    reason: "Désactivé manuellement",
+  },
+  {
+    id: 3,
+    cuvee: "Rosé Vintage",
+    millesime: "2018",
+    type: "Champagne Rosé",
+    url: "rose-vintage-2018",
+    scans: 2156,
+    lastScan: "Il y a 3 semaines",
+    created: "15/03/2022",
+    deactivated: "01/12/2024",
+    status: "archived",
+    reason: "Stock épuisé",
+  },
+  {
+    id: 4,
+    cuvee: "Blanc de Noirs",
+    millesime: "2017",
+    type: "Champagne Blanc",
+    url: "blanc-de-noirs-2017",
+    scans: 756,
+    lastScan: "Il y a 6 semaines",
+    created: "20/08/2022",
+    deactivated: "10/11/2024",
+    status: "deactivated",
+    reason: "Erreur de configuration",
+  },
+  {
+    id: 5,
+    cuvee: "Cuvée Prestige",
+    millesime: "2016",
+    type: "Champagne Millésimé",
+    url: "cuvee-prestige-2016",
+    scans: 3421,
+    lastScan: "Il y a 1 mois",
+    created: "12/01/2021",
+    deactivated: "25/11/2024",
+    status: "archived",
+    reason: "Fin de commercialisation",
+  },
+  {
+    id: 6,
+    cuvee: "Brut Nature",
+    millesime: "2019",
+    type: "Champagne Brut",
+    url: "brut-nature-2019",
+    scans: 445,
+    lastScan: "Il y a 2 mois",
+    created: "18/04/2023",
+    deactivated: "05/12/2024",
+    status: "deactivated",
+    reason: "Reformulation produit",
+  },
+];
+
+export default function HistoryPage() {
+  const totalArchived = historyData.filter(qr => qr.status === "archived").length;
+  const totalDeactivated = historyData.filter(qr => qr.status === "deactivated").length;
+  const totalScans = historyData.reduce((sum, qr) => sum + qr.scans, 0);
+  const averageScans = Math.round(totalScans / historyData.length);
+
+  return (
+    <div className="flex flex-1 flex-col">
+      <div className="@container/main flex flex-1 flex-col gap-2">
+        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 lg:px-6">
+            <div>
+              <h1 className="text-2xl font-semibold">Historique</h1>
+              <p className="text-muted-foreground">
+                Archives et QR codes désactivés
+              </p>
+            </div>
+            <Button variant="outline">
+              <IconArchive className="mr-2 h-4 w-4" />
+              Archiver sélection
+            </Button>
+          </div>
+          <div className="px-4 lg:px-6">
+            <SectionCards
+              totalArchived={totalArchived}
+              totalDeactivated={totalDeactivated}
+              totalScans={totalScans}
+              averageScans={averageScans}
+            />
+          </div>
+          <DataTable data={historyData} />
+        </div>
+      </div>
+    </div>
+  );
+}
