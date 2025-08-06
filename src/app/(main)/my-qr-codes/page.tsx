@@ -1,4 +1,5 @@
-import { DataTable } from "@/components/pages/qr-codes/active/data-table";
+import { DataTable } from "@/components/pages/my-qr-codes/data-table";
+import { QRCodesSectionCards } from "@/components/pages/my-qr-codes/section-cards";
 import { Button } from "@/components/ui/button";
 import { IconDownload, IconPlus } from "@tabler/icons-react";
 import { type Metadata } from "next";
@@ -8,14 +9,12 @@ export const metadata: Metadata = {
   description: "Gérez vos QR codes actuellement en circulation.",
 };
 
-// Données exemple
 const qrCodesData = [
   {
     id: 1,
     cuvee: "Brut Tradition",
     millesime: "2020",
-    type: "Champagne Brut",
-    url: "brut-tradition-2020",
+    url: "/qr/98f7b2c3",
     scans: 342,
     lastScan: "Il y a 2 heures",
     created: "15/01/2024",
@@ -25,8 +24,7 @@ const qrCodesData = [
     id: 2,
     cuvee: "Blanc de Blancs",
     millesime: "2019",
-    type: "Champagne Blanc",
-    url: "blanc-de-blancs-2019",
+    url: "/qr/2a3b4c5d",
     scans: 287,
     lastScan: "Il y a 5 heures",
     created: "20/01/2024",
@@ -36,8 +34,7 @@ const qrCodesData = [
     id: 3,
     cuvee: "Rosé de Saignée",
     millesime: "2021",
-    type: "Champagne Rosé",
-    url: "rose-saignee-2021",
+    url: "/qr/6e7f8g9h",
     scans: 156,
     lastScan: "Hier à 18h30",
     created: "05/02/2024",
@@ -47,8 +44,7 @@ const qrCodesData = [
     id: 4,
     cuvee: "Millésime Exception",
     millesime: "2015",
-    type: "Champagne Millésimé",
-    url: "millesime-exception-2015",
+    url: "/qr/1a2b3c4d",
     scans: 523,
     lastScan: "Il y a 30 minutes",
     created: "10/12/2023",
@@ -58,8 +54,7 @@ const qrCodesData = [
     id: 5,
     cuvee: "Cuvée Prestige",
     millesime: "2018",
-    type: "Champagne Premium",
-    url: "cuvee-prestige-2018",
+    url: "/qr/5d6e7f8g",
     scans: 89,
     lastScan: "Il y a 3 jours",
     created: "01/03/2024",
@@ -82,7 +77,7 @@ export default function ActiveQRCodesPage() {
                 <div className="text-muted-foreground text-sm">
                   Vous avez{" "}
                   <span className="text-base font-medium text-gray-900 dark:text-gray-100">
-                    {pendingQRCodes} QR codes en brouillon
+                    {pendingQRCodes} QR codes inactifs
                   </span>
                 </div>
                 <p className="text-muted-foreground text-sm">
@@ -102,6 +97,9 @@ export default function ActiveQRCodesPage() {
               </Button>
             </div>
           </div>
+
+          <QRCodesSectionCards />
+
           <DataTable data={qrCodesData} />
         </div>
       </div>

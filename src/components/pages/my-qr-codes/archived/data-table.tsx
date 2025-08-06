@@ -20,22 +20,18 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
-  IconBottle,
+  IconArchive,
   IconChevronLeft,
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
-  IconCircleCheckFilled,
-  IconClock,
+  IconCircleXFilled,
   IconCopy,
   IconDotsVertical,
   IconDownload,
-  IconEdit,
   IconEye,
-  IconFilter,
   IconGripVertical,
-  IconQrcode,
-  IconScan,
+  IconRestore,
   IconSearch,
   IconTrash,
 } from "@tabler/icons-react";
@@ -90,12 +86,11 @@ export const schema = z.object({
   id: z.number(),
   cuvee: z.string(),
   millesime: z.string(),
-  type: z.string(),
   url: z.string(),
   scans: z.number(),
-  lastScan: z.string(),
-  created: z.string(),
+  deactivated: z.string(),
   status: z.string(),
+  reason: z.string(),
 });
 
 // Create a separate component for the drag handle
@@ -156,7 +151,6 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-2">
-          <IconBottle className="text-muted-foreground h-4 w-4" />
           <Button
             variant="link"
             className="text-foreground w-fit px-0 text-left"
@@ -176,49 +170,53 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     ),
   },
   {
-    accessorKey: "type",
-    header: "Type",
-    cell: ({ row }) => (
-      <span className="text-muted-foreground text-sm">{row.original.type}</span>
-    ),
-  },
-  {
     accessorKey: "scans",
-    header: () => <div className="w-full text-right">Scans</div>,
+    header: () => "Scans",
     cell: ({ row }) => (
-      <div className="flex items-center justify-end gap-1">
-        <IconScan className="text-muted-foreground h-3 w-3" />
+      <div className="flex items-center">
         <span className="font-medium tabular-nums">{row.original.scans}</span>
       </div>
     ),
   },
   {
-    accessorKey: "lastScan",
-    header: "Dernier scan",
-    cell: ({ row }) => (
-      <div className="text-muted-foreground flex items-center gap-1 text-sm">
-        <IconClock className="h-3 w-3" />
-        {row.original.lastScan}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "created",
-    header: "Créé le",
+    accessorKey: "deactivated",
+    header: "Désactivé le",
     cell: ({ row }) => (
       <span className="text-muted-foreground text-sm">
-        {row.original.created}
+        {row.original.deactivated}
       </span>
     ),
   },
   {
     accessorKey: "status",
     header: "Statut",
-    cell: ({}) => (
-      <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/20">
-        <IconCircleCheckFilled className="mr-1 h-3 w-3" />
-        Actif
-      </Badge>
+    cell: ({ row }) => {
+      const status = row.original.status;
+      return (
+        <Badge
+          className={
+            status === "archived"
+              ? "bg-orange-500/10 text-orange-600 hover:bg-orange-500/20"
+              : "bg-red-500/10 text-red-600 hover:bg-red-500/20"
+          }
+        >
+          {status === "archived" ? (
+            <IconArchive className="mr-1 h-3 w-3" />
+          ) : (
+            <IconCircleXFilled className="mr-1 h-3 w-3" />
+          )}
+          {status === "archived" ? "Archivé" : "Désactivé"}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "reason",
+    header: "Raison",
+    cell: ({ row }) => (
+      <span className="text-muted-foreground text-sm">
+        {row.original.reason}
+      </span>
     ),
   },
   {
@@ -243,17 +241,13 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             Voir la page
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <IconQrcode className="mr-2 h-4 w-4" />
-            Voir le QR Code
-          </DropdownMenuItem>
-          <DropdownMenuItem>
             <IconDownload className="mr-2 h-4 w-4" />
             Télécharger
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <IconEdit className="mr-2 h-4 w-4" />
-            Modifier
+            <IconRestore className="mr-2 h-4 w-4" />
+            Réactiver
           </DropdownMenuItem>
           <DropdownMenuItem>
             <IconCopy className="mr-2 h-4 w-4" />
@@ -262,7 +256,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive">
             <IconTrash className="mr-2 h-4 w-4" />
-            Désactiver
+            Supprimer définitivement
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -313,7 +307,7 @@ export function DataTable({
     pageSize: 10,
   });
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [filterType, setFilterType] = React.useState("all");
+  const [statusFilter, setStatusFilter] = React.useState("all");
   const sortableId = React.useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
@@ -330,13 +324,12 @@ export function DataTable({
     return data.filter((qr) => {
       const matchesSearch =
         qr.cuvee.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        qr.millesime.includes(searchQuery) ||
-        qr.type.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesFilter =
-        filterType === "all" || qr.type.includes(filterType);
-      return matchesSearch && matchesFilter;
+        qr.millesime.includes(searchQuery);
+      const matchesStatusFilter =
+        statusFilter === "all" || qr.status === statusFilter;
+      return matchesSearch && matchesStatusFilter;
     });
-  }, [data, searchQuery, filterType]);
+  }, [data, searchQuery, statusFilter]);
 
   const table = useReactTable({
     data: filteredData,
@@ -379,7 +372,7 @@ export function DataTable({
   }
 
   return (
-    <div className="w-full flex-col justify-start gap-6 px-4 lg:px-6">
+    <div className="w-full flex-col justify-start gap-6">
       <div className="overflow-hidden rounded-lg border">
         <div className="relative flex flex-col overflow-auto">
           <div className="flex flex-col gap-4 px-2 py-2 sm:flex-row sm:items-center sm:justify-between lg:px-4 lg:py-4">
@@ -393,17 +386,14 @@ export function DataTable({
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Select value={filterType} onValueChange={setFilterType}>
-                <SelectTrigger className="h-9 w-[180px]">
-                  <IconFilter className="mr-2 h-4 w-4" />
-                  <SelectValue placeholder="Filtrer par type" />
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="h-9 w-[160px]">
+                  <SelectValue placeholder="Filtrer par statut" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tous les types</SelectItem>
-                  <SelectItem value="Brut">Champagne Brut</SelectItem>
-                  <SelectItem value="Blanc">Champagne Blanc</SelectItem>
-                  <SelectItem value="Rosé">Champagne Rosé</SelectItem>
-                  <SelectItem value="Millésimé">Millésimé</SelectItem>
+                  <SelectItem value="all">Tous les statuts</SelectItem>
+                  <SelectItem value="archived">Archivés</SelectItem>
+                  <SelectItem value="deactivated">Désactivés</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -414,12 +404,12 @@ export function DataTable({
                     {selectedRows.length} sélectionné(s)
                   </span>
                   <Button variant="outline" className="h-9">
-                    <IconDownload className="mr-2 h-4 w-4" />
-                    Exporter
+                    <IconRestore className="mr-2 h-4 w-4" />
+                    Réactiver
                   </Button>
                   <Button variant="outline" className="h-9">
                     <IconTrash className="mr-2 h-4 w-4" />
-                    Désactiver
+                    Supprimer
                   </Button>
                 </>
               )}
@@ -467,7 +457,7 @@ export function DataTable({
                       colSpan={columns.length}
                       className="h-24 text-center"
                     >
-                      No results.
+                      Aucun résultat trouvé.
                     </TableCell>
                   </TableRow>
                 )}
@@ -478,7 +468,7 @@ export function DataTable({
       </div>
       <div className="flex items-center justify-between py-2 lg:py-4">
         <p className="text-muted-foreground text-sm">
-          Affichage de {filteredData.length} QR code(s) actif(s)
+          Affichage de {filteredData.length} QR code(s) dans l&apos;historique
         </p>
         <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}

@@ -45,54 +45,54 @@ const data = {
     },
     {
       title: "Mes QR Codes",
-      url: "/qr-codes",
+      url: "/my-qr-codes",
       icon: IconQrcode,
       items: [
         {
-          title: "QR Codes actifs",
-          url: "/qr-codes/active",
+          title: "Tous mes QR Codes",
+          url: "/my-qr-codes",
         },
         {
-          title: "Historique",
-          url: "/qr-codes/history",
+          title: "Archives",
+          url: "/my-qr-codes/archived",
         },
       ],
     },
     {
       title: "Mes Cuvées",
-      url: "/cuvees",
+      url: "/my-vintages",
       icon: IconBottle,
       items: [
         {
-          title: "Toutes les cuvées",
-          url: "/cuvees/all",
+          title: "Toutes mes cuvées",
+          url: "/my-vintages",
         },
         {
           title: "Ajouter une cuvée",
-          url: "/cuvees/add",
+          url: "/my-vintages/create",
         },
         {
-          title: "Informations nutritionnelles",
-          url: "/cuvees/nutrition",
+          title: "Infos nutritionnelles",
+          url: "/my-vintages/nutrition",
         },
       ],
     },
     {
       title: "Mon Domaine",
-      url: "/domain",
+      url: "/my-domain",
       icon: IconWorld,
       items: [
         {
-          title: "Configuration DNS",
-          url: "/domain/dns",
+          title: "Configuration",
+          url: "/my-domain/config",
         },
         {
           title: "Sous-domaines",
-          url: "/domain/subdomains",
+          url: "/my-domain/subdomains",
         },
         {
-          title: "Vérification",
-          url: "/domain/verify",
+          title: "Vérification DNS",
+          url: "/my-domain/verification",
         },
       ],
     },
