@@ -1,5 +1,4 @@
 import { DataTable } from "@/components/pages/qr-codes/history/data-table";
-import { SectionCards } from "@/components/pages/qr-codes/history/section-cards";
 import { Button } from "@/components/ui/button";
 import { IconArchive } from "@tabler/icons-react";
 import { type Metadata } from "next";
@@ -91,11 +90,6 @@ const historyData = [
 ];
 
 export default function HistoryPage() {
-  const totalArchived = historyData.filter(qr => qr.status === "archived").length;
-  const totalDeactivated = historyData.filter(qr => qr.status === "deactivated").length;
-  const totalScans = historyData.reduce((sum, qr) => sum + qr.scans, 0);
-  const averageScans = Math.round(totalScans / historyData.length);
-
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
@@ -114,14 +108,8 @@ export default function HistoryPage() {
             </Button>
           </div>
           <div className="px-4 lg:px-6">
-            <SectionCards
-              totalArchived={totalArchived}
-              totalDeactivated={totalDeactivated}
-              totalScans={totalScans}
-              averageScans={averageScans}
-            />
+            <DataTable data={historyData} />
           </div>
-          <DataTable data={historyData} />
         </div>
       </div>
     </div>

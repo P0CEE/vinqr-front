@@ -1,7 +1,6 @@
 import { DataTable } from "@/components/pages/qr-codes/active/data-table";
-import { SectionCards } from "@/components/pages/qr-codes/active/section-cards";
 import { Button } from "@/components/ui/button";
-import { IconPlus } from "@tabler/icons-react";
+import { IconDownload, IconPlus } from "@tabler/icons-react";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -69,8 +68,7 @@ const qrCodesData = [
 ];
 
 export default function ActiveQRCodesPage() {
-  const totalScans = qrCodesData.reduce((sum, qr) => sum + qr.scans, 0);
-  const averageScans = Math.round(totalScans / qrCodesData.length);
+  const pendingQRCodes = 6;
 
   return (
     <div className="flex flex-1 flex-col">
@@ -78,25 +76,31 @@ export default function ActiveQRCodesPage() {
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
           {/* Header */}
           <div className="flex items-center justify-between px-4 lg:px-6">
-            <div>
-              <h1 className="text-2xl font-semibold">QR Codes Actifs</h1>
-              <p className="text-muted-foreground">
-                Gérez vos QR codes actuellement en circulation
-              </p>
+            <div className="flex items-center gap-3">
+              <div className="text-4xl">💡</div>
+              <div>
+                <div className="text-muted-foreground text-sm">
+                  Vous avez{" "}
+                  <span className="text-base font-medium text-gray-900 dark:text-gray-100">
+                    {pendingQRCodes} QR codes en brouillon
+                  </span>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  qui nécessitent votre attention !
+                </p>
+              </div>
             </div>
-            <Button>
-              <IconPlus />
-              Nouveau QR Code
-            </Button>
-          </div>
-          <div className="px-4 lg:px-6">
-            <SectionCards
-              totalActive={qrCodesData.length}
-              totalScans={totalScans}
-              averageScans={averageScans}
-              lastScanTime="Il y a 30min"
-              lastScanProduct="Millésime Exception"
-            />
+
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="gap-2">
+                <IconDownload className="h-4 w-4" />
+                Export
+              </Button>
+              <Button className="gap-2">
+                <IconPlus className="h-4 w-4" />
+                Nouveau QR Code
+              </Button>
+            </div>
           </div>
           <DataTable data={qrCodesData} />
         </div>

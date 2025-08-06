@@ -34,7 +34,7 @@ const data = {
   navMain: [
     {
       title: "Tableau de bord",
-      url: "/dashboard",
+      url: "/",
       icon: IconDashboard,
       badge: "12/50",
     },

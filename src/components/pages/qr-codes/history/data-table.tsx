@@ -22,7 +22,6 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   IconArchive,
   IconBottle,
-  IconChevronDown,
   IconChevronLeft,
   IconChevronRight,
   IconChevronsLeft,
@@ -35,7 +34,6 @@ import {
   IconEye,
   IconFilter,
   IconGripVertical,
-  IconLayoutColumns,
   IconRestore,
   IconScan,
   IconSearch,
@@ -64,7 +62,6 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -405,7 +402,7 @@ export function DataTable({
   }
 
   return (
-    <div className="w-full flex-col justify-start gap-6 px-4 lg:px-6">
+    <div className="w-full flex-col justify-start gap-6">
       <div className="overflow-hidden rounded-lg border">
         <div className="relative flex flex-col overflow-auto">
           <div className="flex flex-col gap-4 px-2 py-2 sm:flex-row sm:items-center sm:justify-between lg:px-4 lg:py-4">
@@ -459,39 +456,6 @@ export function DataTable({
                   </Button>
                 </>
               )}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="h-9">
-                    <IconLayoutColumns />
-                    <span className="hidden lg:inline">Customize Columns</span>
-                    <span className="lg:hidden">Columns</span>
-                    <IconChevronDown />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  {table
-                    .getAllColumns()
-                    .filter(
-                      (column) =>
-                        typeof column.accessorFn !== "undefined" &&
-                        column.getCanHide(),
-                    )
-                    .map((column) => {
-                      return (
-                        <DropdownMenuCheckboxItem
-                          key={column.id}
-                          className="capitalize"
-                          checked={column.getIsVisible()}
-                          onCheckedChange={(value) =>
-                            column.toggleVisibility(!!value)
-                          }
-                        >
-                          {column.id}
-                        </DropdownMenuCheckboxItem>
-                      );
-                    })}
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
           <DndContext
