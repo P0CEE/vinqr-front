@@ -33,7 +33,7 @@ import {
   IconGripVertical,
   IconQrcode,
   IconSearch,
-  IconTrash
+  IconTrash,
 } from "@tabler/icons-react";
 import {
   type ColumnDef,
@@ -66,6 +66,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { QRCodeDialog } from "@/components/ui/qr-code-dialog";
 import {
   Select,
   SelectContent,
@@ -177,7 +178,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         href={`https://${row.original.url}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-sm text-primary underline transition-colors hover:text-primary/90"
+        className="text-primary hover:text-primary/90 text-sm underline transition-colors"
       >
         {row.original.url}
       </a>
@@ -221,7 +222,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
   {
     id: "actions",
-    cell: ({}) => (
+    cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -237,29 +238,37 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <IconEye className="mr-2 h-4 w-4" />
+            <IconEye className="h-4 w-4" />
             Voir la page
           </DropdownMenuItem>
+          <QRCodeDialog
+            qrCodeUrl={`https://champagne-exemple.fr${row.original.url}`}
+            qrCodeTitle="QR Code de la cuvée"
+            qrCodeDescription="Scannez ce code pour accéder aux informations nutritionnelles"
+            cuvee={row.original.cuvee}
+            millesime={row.original.millesime}
+          >
+            <div className="focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-accent hover:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+              <IconQrcode />
+              Voir le QR Code
+            </div>
+          </QRCodeDialog>
           <DropdownMenuItem>
-            <IconQrcode className="mr-2 h-4 w-4" />
-            Voir le QR Code
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <IconDownload className="mr-2 h-4 w-4" />
+            <IconDownload className="h-4 w-4" />
             Télécharger
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <IconEdit className="mr-2 h-4 w-4" />
+            <IconEdit className="h-4 w-4" />
             Modifier
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <IconCopy className="mr-2 h-4 w-4" />
+            <IconCopy className="h-4 w-4" />
             Dupliquer
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive">
-            <IconTrash className="mr-2 h-4 w-4" />
+            <IconTrash className="h-4 w-4" />
             Désactiver
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -396,7 +405,7 @@ export function DataTable({
                 onValueChange={setFilterMillesime}
               >
                 <SelectTrigger className="h-9 w-[180px]">
-                  <IconFilter className="mr-2 h-4 w-4" />
+                  <IconFilter className="h-4 w-4" />
                   <SelectValue placeholder="Filtrer par millésime" />
                 </SelectTrigger>
                 <SelectContent>

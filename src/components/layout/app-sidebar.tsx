@@ -1,141 +1,108 @@
 "use client";
 
-import {
-  IconBottle,
-  IconDashboard,
-  IconHelp,
-  IconPlus,
-  IconQrcode,
-  IconSettings,
-  IconWorld,
-} from "@tabler/icons-react";
+import { IconPlus } from "@tabler/icons-react";
 import * as React from "react";
+import { useState } from "react";
 
 import { NavMain } from "@/components/layout/sidebar/nav-main";
-import { NavSecondary } from "@/components/layout/sidebar/nav-secondary";
 import { NavUser } from "@/components/layout/sidebar/nav-user";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
-
-const data = {
-  user: {
-    name: "Champagne Exemple",
-    email: "contact@champagne-exemple.fr",
-    avatar: "/avatars/user.jpg",
-  },
-  navMain: [
-    {
-      title: "Tableau de bord",
-      url: "/",
-      icon: IconDashboard,
-      badge: "12/50",
-    },
-    {
-      title: "Créer un QR Code",
-      url: "/qr-codes/create",
-      icon: IconPlus,
-    },
-    {
-      title: "Mes QR Codes",
-      url: "/my-qr-codes",
-      icon: IconQrcode,
-      items: [
-        {
-          title: "Tous mes QR Codes",
-          url: "/my-qr-codes",
-        },
-        {
-          title: "Archives",
-          url: "/my-qr-codes/archived",
-        },
-      ],
-    },
-    {
-      title: "Mes Cuvées",
-      url: "/my-vintages",
-      icon: IconBottle,
-      items: [
-        {
-          title: "Toutes mes cuvées",
-          url: "/my-vintages",
-        },
-        {
-          title: "Ajouter une cuvée",
-          url: "/my-vintages/create",
-        },
-        {
-          title: "Infos nutritionnelles",
-          url: "/my-vintages/nutrition",
-        },
-      ],
-    },
-    {
-      title: "Mon Domaine",
-      url: "/my-domain",
-      icon: IconWorld,
-      items: [
-        {
-          title: "Configuration",
-          url: "/my-domain/config",
-        },
-        {
-          title: "Sous-domaines",
-          url: "/my-domain/subdomains",
-        },
-        {
-          title: "Vérification DNS",
-          url: "/my-domain/verification",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Paramètres",
-      url: "/settings",
-      icon: IconSettings,
-    },
-    {
-      title: "Aide & Support",
-      url: "/support",
-      icon: IconHelp,
-    },
-  ],
-};
+import {
+  bottomNavItems,
+  navigationConfig,
+  userNavData,
+} from "@/config/navigation";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { state } = useSidebar();
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <Link href="/">
-                <IconBottle className="!size-5" />
-                <span className="text-base font-semibold">Vin&apos;QR</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarHeader
+        className={`relative top-2.5 flex flex-col gap-2 ${state === "collapsed" ? "px-2" : "md:px-4"}`}
+      >
+        {" "}
+        <NavUser user={userNavData} />
+        <CreateQRButton />
       </SidebarHeader>
+
       <SidebarContent>
-        <NavMain title="Navigation" items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {navigationConfig.main.sections.map((section, index) => (
+          <NavMain
+            key={index}
+            title={section.title}
+            items={section.items}
+            className={index > 0 ? "mt-4" : ""}
+          />
+        ))}
       </SidebarContent>
+
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <div className="mt-auto">
+          {bottomNavItems.map((section, index) => (
+            <NavMain key={`bottom-${index}`} items={section.items} />
+          ))}
+        </div>
       </SidebarFooter>
     </Sidebar>
+  );
+}
+
+function CreateQRButton() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+  };
+
+  return (
+    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
+      <DialogTitle></DialogTitle>
+      <DialogDescription></DialogDescription>
+
+      <DialogTrigger asChild>
+        <Button className="mb-1.5 h-8 w-full gap-2">
+          <IconPlus className="h-4 w-4" />
+          Nouveau QR Code
+        </Button>
+      </DialogTrigger>
+
+      <DialogContent className="bg-background h-screen w-screen max-w-none border-none p-0 shadow-none">
+        <div className="flex h-full flex-col">
+          <div className="flex items-center justify-between border-b p-4">
+            <h2 className="text-lg font-semibold">Créer un nouveau QR Code</h2>
+          </div>
+
+          <div className="flex-1 overflow-auto p-6">
+            <div className="mx-auto max-w-2xl space-y-6">
+              <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center">
+                <IconPlus className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+                <h3 className="mb-2 text-lg font-medium">
+                  Formulaire de création QR Code
+                </h3>
+                <p className="text-muted-foreground">
+                  Ici sera implémenté le formulaire complet pour créer un QR
+                  Code.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

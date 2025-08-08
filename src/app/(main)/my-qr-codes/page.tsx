@@ -2,12 +2,6 @@ import { DataTable } from "@/components/pages/my-qr-codes/data-table";
 import { QRCodesSectionCards } from "@/components/pages/my-qr-codes/section-cards";
 import { Button } from "@/components/ui/button";
 import { IconDownload, IconPlus } from "@tabler/icons-react";
-import { type Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "QR Codes Actifs | Vin'QR",
-  description: "Gérez vos QR codes actuellement en circulation.",
-};
 
 const qrCodesData = [
   {
@@ -87,11 +81,14 @@ export default function ActiveQRCodesPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline">
                 <IconDownload className="h-4 w-4" />
                 Export
               </Button>
-              <Button className="gap-2">
+              <Button
+                variant="outline"
+                className="text-primary hover:text-primary/90"
+              >
                 <IconPlus className="h-4 w-4" />
                 Nouveau QR Code
               </Button>

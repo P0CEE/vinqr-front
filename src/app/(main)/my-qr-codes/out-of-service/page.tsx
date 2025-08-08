@@ -1,12 +1,7 @@
-import { DataTable } from "@/components/pages/my-qr-codes/archived/data-table";
+import { DataTable } from "@/components/pages/my-qr-codes/out-of-service/data-table";
+import { ArchivedSectionCards } from "@/components/pages/my-qr-codes/out-of-service/section-cards";
 import { Button } from "@/components/ui/button";
-import { IconArchive } from "@tabler/icons-react";
-import { type Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Historique | Vin'QR",
-  description: "Archives et QR codes désactivés.",
-};
+import { IconDownload, IconTrash } from "@tabler/icons-react";
 
 const historyData = [
   {
@@ -72,26 +67,47 @@ const historyData = [
 ];
 
 export default function HistoryPage() {
+  const restorableQRCodes = 3;
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
           {/* Header */}
           <div className="flex items-center justify-between px-4 lg:px-6">
-            <div>
-              <h1 className="text-2xl font-semibold">Historique</h1>
-              <p className="text-muted-foreground">
-                Archives et QR codes désactivés
-              </p>
+            <div className="flex items-center gap-3">
+              <div className="text-4xl">🗃️</div>
+              <div>
+                <div className="text-muted-foreground text-sm">
+                  Vous avez{" "}
+                  <span className="text-base font-medium text-gray-900 dark:text-gray-100">
+                    {restorableQRCodes} QR codes archivés
+                  </span>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  qui peuvent être restaurés facilement !
+                </p>
+              </div>
             </div>
-            <Button variant="outline">
-              <IconArchive className="mr-2 h-4 w-4" />
-              Archiver sélection
-            </Button>
+
+            <div className="flex items-center gap-2">
+              <Button variant="outline">
+                <IconDownload className="h-4 w-4" />
+                Export
+              </Button>
+              <Button
+                variant="outline"
+                className="text-destructive hover:text-destructive/90"
+              >
+                <IconTrash className="h-4 w-4" />
+                Nettoyer les désactivés
+              </Button>
+            </div>
           </div>
-          <div className="px-4 lg:px-6">
-            <DataTable data={historyData} />
-          </div>
+
+          <ArchivedSectionCards />
+
+          <DataTable data={historyData} />
         </div>
       </div>
     </div>

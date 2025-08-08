@@ -372,7 +372,7 @@ export function DataTable({
   }
 
   return (
-    <div className="w-full flex-col justify-start gap-6">
+    <div className="w-full flex-col justify-start gap-6 px-4 lg:px-6">
       <div className="overflow-hidden rounded-lg border">
         <div className="relative flex flex-col overflow-auto">
           <div className="flex flex-col gap-4 px-2 py-2 sm:flex-row sm:items-center sm:justify-between lg:px-4 lg:py-4">

@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { SiteHeader } from "@/components/layout/site-header";
+import { OnboardingWrapper } from "@/components/layout/onboarding";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function MainLayoutPage({
@@ -11,7 +12,7 @@ export default function MainLayoutPage({
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--sidebar-width": "calc(var(--spacing) * 64)",
           "--header-height": "calc(var(--spacing) * 12)",
         } as React.CSSProperties
       }
@@ -21,6 +22,7 @@ export default function MainLayoutPage({
         <SiteHeader />
         {children}
       </SidebarInset>
+      <OnboardingWrapper />
     </SidebarProvider>
   );
 }
