@@ -37,7 +37,7 @@ export const navigationConfig: Record<string, NavConfig> = {
     path: "/",
     sections: [
       {
-        title: "Gestion",
+        title: "Mon activité", 
         items: [
           {
             id: "dashboard",
@@ -48,53 +48,45 @@ export const navigationConfig: Record<string, NavConfig> = {
           },
           {
             id: "my-qr-codes",
-            title: "Mes QR Codes",
+            title: "QR Codes",
             url: "/my-qr-codes",
             icon: IconQrcode,
             items: [
               {
-                title: "Tous mes QR Codes",
+                title: "Tous les QR Codes",
                 url: "/my-qr-codes",
               },
               {
-                title: "Archives",
+                title: "Hors service",
                 url: "/my-qr-codes/out-of-service",
               },
             ],
           },
           {
             id: "my-vintages",
-            title: "Mes Cuvées",
+            title: "Cuvées",
             url: "/my-vintages",
             icon: IconBottle,
             items: [
               {
-                title: "Toutes mes cuvées",
+                title: "Toutes les cuvées",
                 url: "/my-vintages",
               },
               {
                 title: "Ajouter une cuvée",
                 url: "/my-vintages/create",
               },
-              {
-                title: "Infos nutritionnelles",
-                url: "/my-vintages/nutrition",
-              },
             ],
           },
           {
             id: "my-domain",
-            title: "Mon Domaine",
+            title: "Domaine",
             url: "/my-domain",
             icon: IconWorld,
             items: [
               {
                 title: "Configuration",
                 url: "/my-domain/config",
-              },
-              {
-                title: "Sous-domaines",
-                url: "/my-domain/subdomains",
               },
               {
                 title: "Vérification DNS",

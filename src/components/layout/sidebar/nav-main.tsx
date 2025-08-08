@@ -17,7 +17,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { type Icon } from "@tabler/icons-react";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
@@ -31,7 +30,7 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: Icon;
+    icon?: React.ComponentType<IconProps>;
     badge?: string;
     items?: {
       title: string;

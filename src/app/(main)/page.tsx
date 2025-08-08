@@ -1,5 +1,5 @@
-import { ChartAreaInteractive } from "@/components/pages/dashboard/chart-area-interactive";
-import { SectionCards } from "@/components/pages/dashboard/section-cards";
+import { ChartAreaInteractive } from "@/components/features/overview/chart-area-interactive";
+import { SectionCards } from "@/components/features/overview/overview-section-cards";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { IconBulb } from "@tabler/icons-react";

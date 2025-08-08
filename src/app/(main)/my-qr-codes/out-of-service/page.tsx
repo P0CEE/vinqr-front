@@ -1,5 +1,5 @@
-import { DataTable } from "@/components/pages/my-qr-codes/out-of-service/data-table";
-import { ArchivedSectionCards } from "@/components/pages/my-qr-codes/out-of-service/section-cards";
+import { ArchivedQRCodesTable } from "@/components/features/qr-codes/archived-qr-codes-table";
+import { ArchivedSectionCards } from "@/components/features/qr-codes/archived-section-cards";
 import { Button } from "@/components/ui/button";
 import { IconDownload, IconTrash } from "@tabler/icons-react";
 
@@ -105,9 +105,14 @@ export default function HistoryPage() {
             </div>
           </div>
 
-          <ArchivedSectionCards />
+          <ArchivedSectionCards 
+            archivedQRCodes={6}
+            totalScans={8917}
+            readyToRestore={2}
+            deactivated={2}
+          />
 
-          <DataTable data={historyData} />
+          <ArchivedQRCodesTable data={historyData} />
         </div>
       </div>
     </div>

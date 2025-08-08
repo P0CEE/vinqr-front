@@ -1,5 +1,5 @@
-import { DataTable } from "@/components/pages/my-qr-codes/data-table";
-import { QRCodesSectionCards } from "@/components/pages/my-qr-codes/section-cards";
+import { QRCodesTable } from "@/components/features/qr-codes/qr-codes-table";
+import { QRCodesSectionCards } from "@/components/features/qr-codes/qr-codes-section-cards";
 import { Button } from "@/components/ui/button";
 import { IconDownload, IconPlus } from "@tabler/icons-react";
 
@@ -95,9 +95,15 @@ export default function ActiveQRCodesPage() {
             </div>
           </div>
 
-          <QRCodesSectionCards />
+          <QRCodesSectionCards 
+            activeQRCodes={12}
+            totalQRCodes={50}
+            totalScans={1847}
+            activeVintages={5}
+            lastScanTime="2h"
+          />
 
-          <DataTable data={qrCodesData} />
+          <QRCodesTable data={qrCodesData} />
         </div>
       </div>
     </div>
