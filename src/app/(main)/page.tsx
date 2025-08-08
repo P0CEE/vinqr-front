@@ -21,7 +21,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="px-4 lg:px-6">
-            <div className="bg-primary/5 flex items-start gap-4 rounded-lg border p-4">
+            <div className="bg-primary/5 flex items-start gap-4  border p-4">
               <div className="text-primary">
                 <IconBulb className="h-8 w-8" />
               </div>

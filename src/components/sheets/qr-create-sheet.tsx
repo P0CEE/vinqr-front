@@ -1,6 +1,11 @@
 "use client";
 
-import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { useQRParams } from "@/hooks/use-qr-params";
 import { QRForm } from "../forms/qr-form";
 
@@ -12,7 +17,7 @@ export function QRCreateSheet() {
     <Sheet open={isOpen} onOpenChange={() => setParams(null)}>
       <SheetContent>
         <SheetHeader>
-          <h2 className="text-xl font-medium">Créer un QR Code</h2>
+          <SheetTitle className="text-xl font-medium">Créer un QR Code</SheetTitle>
         </SheetHeader>
         <QRForm />
       </SheetContent>
