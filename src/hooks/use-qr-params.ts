@@ -2,12 +2,12 @@
 
 import { create } from "zustand";
 
-type QRParams = {
-  createQR?: boolean;
-  setParams: (params: QRParams | null) => void;
-};
+interface QRParamsState {
+  createQR: boolean;
+  setParams: (params: { createQR: boolean } | null) => void;
+}
 
-export const useQRParams = create<QRParams>((set) => ({
+export const useQRParams = create<QRParamsState>((set) => ({
   createQR: false,
   setParams: (params) => set(params ?? { createQR: false }),
 }));

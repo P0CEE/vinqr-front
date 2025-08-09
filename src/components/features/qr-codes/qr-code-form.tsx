@@ -1,6 +1,7 @@
 "use client";
 
-import { AttachmentItem } from "@/components/attachment-item";
+import { AttachmentItem } from "@/components/forms/attachment-item";
+import { FileUploadField } from "@/components/forms/form-fields/file-upload-field";
 import {
   Accordion,
   AccordionContent,
@@ -24,14 +25,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { useCallback, useState } from "react";
-import {
-  useDropzone,
-  type DropzoneInputProps,
-  type DropzoneRootProps,
-  type FileRejection,
-} from "react-dropzone";
+import type { FileRejection } from "react-dropzone";
 import { useForm, type ControllerRenderProps } from "react-hook-form";
 
 type QRFormValues = {
@@ -43,7 +38,12 @@ type QRFormValues = {
   attachments: File[];
 };
 
-export function QRForm() {
+interface QRCodeFormProps {
+  onSubmit?: (values: QRFormValues) => void;
+  onCancel?: () => void;
+}
+
+export function QRCodeForm({ onSubmit: handleFormSubmit }: QRCodeFormProps) {
   const form = useForm<QRFormValues>({
     defaultValues: {
       domaine: "",
@@ -68,15 +68,6 @@ export function QRForm() {
     [form],
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    maxSize: 3 * 1024 * 1024,
-  }) as {
-    getRootProps: <T extends DropzoneRootProps>(props?: T) => T;
-    getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
-    isDragActive: boolean;
-  };
-
   const handleOnDelete = (index: number) => {
     setFiles((prev) => {
       const updated = prev.filter((_, i) => i !== index);
@@ -87,6 +78,9 @@ export function QRForm() {
 
   const onSubmit = (values: QRFormValues) => {
     console.log("QR Code créé :", values);
+    if (handleFormSubmit) {
+      handleFormSubmit(values);
+    }
   };
 
   return (
@@ -209,30 +203,7 @@ export function QRForm() {
             <AccordionItem value="attachment">
               <AccordionTrigger>Photo de la cuvée</AccordionTrigger>
               <AccordionContent>
-                <div
-                  {...getRootProps()}
-                  className={cn(
-                    "border-border flex h-[120px] w-full flex-col justify-center space-y-1 border-2 border-dotted text-center text-[#606060] transition-colors",
-                    isDragActive ? "bg-secondary text-primary" : "",
-                  )}
-                >
-                  <input {...getInputProps()} />
-                  {isDragActive ? (
-                    <p className="text-xs">Déposez vos fichiers ici</p>
-                  ) : (
-                    <>
-                      <p className="text-xs">
-                        Glissez vos fichiers ici, ou{" "}
-                        <span className="underline underline-offset-1">
-                          cliquez pour parcourir.
-                        </span>
-                      </p>
-                      <p className="text-dark-gray text-xs">
-                        Limite de 3MB par fichier.
-                      </p>
-                    </>
-                  )}
-                </div>
+                <FileUploadField onDrop={onDrop} />
 
                 <ul className="mt-4 space-y-4">
                   {files.map((file, idx) => (
